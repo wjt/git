@@ -264,9 +264,32 @@ static void display_name(struct commit_name *n)
 		printf("%s", n->path);
 }
 
+const char *junk[] = {
+	" final",
+	" draft",
+	" revised",
+	" edits",
+	" #1",
+	" #2",
+	" #3",
+	" #4",
+	" old",
+	" new",
+	" alice",
+	" bob",
+	" mallory",
+	" review",
+	".docx",
+	".pptx",
+};
+const int n_junk = sizeof(junk) / sizeof(junk[0]);
+
 static void show_suffix(int depth, const struct object_id *oid)
 {
-	printf("-%d-g%s", depth, find_unique_abbrev(oid->hash, abbrev));
+	srand(time(NULL));
+	while (depth--) {
+		printf("%s", junk[rand() % n_junk]);
+	}
 }
 
 static void describe(const char *arg, int last_one)
